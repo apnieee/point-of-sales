@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:contentDescription="kategori buku"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/iconCard"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardBackgroundColor="?attr/colorTertiaryContainer"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/kategori"
+            app:layout_constraintBottom_toBottomOf="@id/iconCard"
+            app:layout_constraintEnd_toEndOf="@+id/iconCard"
+            app:layout_constraintStart_toStartOf="@+id/iconCard"
+            app:layout_constraintTop_toTopOf="@id/iconCard">
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tvKategori"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kategori"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iconCard"
+            app:layout_constraintTop_toTopOf="@id/iconCard"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp">
+        </TextView>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aktif"
+            app:chipIcon="@drawable/check"
+            app:chipIconVisible="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+        </com.google.android.material.chip.Chip>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

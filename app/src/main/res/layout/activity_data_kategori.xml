@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    tools:context=".kategori.DataKategoriActivity">
+
+    <ImageView
+        android:id="@+id/ivkembali"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/back"
+        app:tint="?attr/colorOnBackground"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/etSearch" />
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Cari Data Kategori"
+        android:textSize="18sp"
+        android:minHeight="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toEndOf="@id/ivSearch"
+        app:layout_constraintEnd_toStartOf="@id/ivReload"
+        app:layout_constraintTop_toTopOf="@id/ivkembali" />
+
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/search"
+        app:tint="?attr/colorOnBackground"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@id/ivkembali"
+        app:layout_constraintTop_toTopOf="@id/ivkembali"
+        app:layout_constraintBottom_toBottomOf="@id/ivkembali"/>
+
+    <ImageView
+        android:id="@+id/ivReload"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="16dp"
+        app:tint="?attr/colorOnBackground"
+        android:src="@drawable/reload"
+        app:layout_constraintBottom_toBottomOf="@id/ivkembali"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivkembali" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/etSearch"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvKategori"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/item_data_kategori" />
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabTambah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/add"
+        android:contentDescription="tambah"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">pos</string>
+    <string name="status_aktif">status_aktif</string>
+    <string name="status_nonaktif">status nonaktif</string>
+</resources>

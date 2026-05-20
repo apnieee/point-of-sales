@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "399974294461",
+    "project_id": "com-apni-pos",
+    "storage_bucket": "com-apni-pos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399974294461:android:b3bff6113a9555216b28d4",
+        "android_client_info": {
+          "package_name": "com.apni.pos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH9F_fiMfIFhBK8JrEBlJj8RqHm7kQBxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
