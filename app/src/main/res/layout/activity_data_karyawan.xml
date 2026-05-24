@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:layout_marginTop="30dp">
+
+    <ImageView
+        android:id="@+id/ivKembali"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/back"
+        app:tint="?attr/colorOnBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/etSearchPegawai" />
+
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/search"
+        app:tint="?attr/colorOnBackground"
+        app:layout_constraintBottom_toBottomOf="@id/ivKembali"
+        app:layout_constraintStart_toEndOf="@id/ivKembali"
+        app:layout_constraintTop_toTopOf="@id/ivKembali" />
+
+    <EditText
+        android:id="@+id/etSearchPegawai"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Cari Data Karyawan"
+        android:minHeight="48dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@id/ivReload"
+        app:layout_constraintStart_toEndOf="@id/ivSearch"
+        app:layout_constraintTop_toTopOf="@id/ivKembali" />
+
+    <ImageView
+        android:id="@+id/ivReload"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/reload"
+        app:tint="?attr/colorOnBackground"
+        app:layout_constraintBottom_toBottomOf="@id/ivKembali"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivKembali" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalSv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivKembali">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:singleSelection="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipSemua"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Semua"
+                android:textSize="18sp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipAdmin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Admin"
+                android:textSize="18sp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipKasir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kasir"
+                android:textSize="18sp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipOwner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Owner"
+                android:textSize="18sp" />
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/horizontalSv">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvPegawai"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/item_karyawan" />
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabTambah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/add"
+        android:contentDescription="tambah"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
