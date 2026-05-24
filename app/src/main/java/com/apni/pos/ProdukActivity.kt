@@ -1,6 +1,6 @@
 package com.apni.pos.produk
 
-data class Produk(
+data class ProdukActivity(
 
     var id: String = "",
     var namaProduk: String = "",

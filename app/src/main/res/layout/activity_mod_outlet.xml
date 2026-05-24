@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Point Of Sales"
+            android:text="Point Of Sale"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -71,20 +71,11 @@
                 android:text="Nama Outlet"
                 android:textSize="16sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*"
-                android:textColor="#E53935"
-                android:textSize="16sp"
-                android:layout_marginTop="-22dp"
-                android:layout_marginStart="95dp"/>
-
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Outlet Saya">
+                android:hint="Masukkan Nama Outlet">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNamaOutlet"
@@ -103,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="Jalan Kreasi 1 Blok A No 54"
+                android:hint="Masukkan Alamat Lengkap"
                 app:counterEnabled="true"
                 app:counterMaxLength="160">
 
@@ -127,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="081234567890">
+                android:hint="Masukkan Nomor Kontak">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etNomorOutlet"

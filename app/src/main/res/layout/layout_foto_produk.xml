@@ -6,44 +6,11 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
-    <ImageView
-        android:id="@+id/ivkembali"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@drawable/back"
-        android:contentDescription="kembali"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/headerText"/>
-
-    <LinearLayout
-        android:id="@+id/headerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="12dp"
-        app:layout_constraintStart_toEndOf="@id/ivkembali"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tambah Produk"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Point Of Sales"
-            android:textSize="14sp" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/tvTambahProduk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50sp"
+        android:layout_marginTop="30sp"
         android:text="Tambah Produk"
         android:textSize="25sp"
         android:textStyle="bold"
@@ -52,10 +19,13 @@
         app:layout_constraintTop_toBottomOf="@id/headerText"/>
 
     <FrameLayout
-        android:layout_width="350dp"
-        android:layout_height="250dp"
+        android:layout_width="340dp"
+        android:layout_height="240dp"
         android:layout_marginTop="25dp"
         android:background="@drawable/bg_upload"
+        android:textColor="?attr/colorOnSurface"
+        android:backgroundTint="?attr/colorSurfaceVariant"
+        app:iconTint="?attr/colorOnSurfaceVariant"
         app:layout_constraintTop_toBottomOf="@id/tvTambahProduk"
         app:layout_constraintStart_toStartOf="@id/tvTambahProduk"
         app:layout_constraintEnd_toEndOf="@id/tvTambahProduk">
@@ -84,11 +54,13 @@
             android:layout_marginStart="10dp"
             android:layout_marginBottom="13dp"
             android:text="Kamera"
-            android:textColor="#5D5C5C"
+            android:textColor="?attr/colorOnSurface"
+            android:backgroundTint="?attr/colorSurface"
             app:cornerRadius="20dp"
-            android:backgroundTint="#E4E1E4"
-            app:iconTint="#5D5C5C"
-            app:icon="@drawable/camera" />
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorOutline"
+            app:icon="@drawable/camera"
+            app:iconTint="?attr/colorOnSurface" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGaleri"
@@ -98,11 +70,13 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="13dp"
             android:text="Galeri"
-            android:textColor="#5D5C5C"
-            android:backgroundTint="#E4E1E4"
-            app:iconTint="#5D5C5C"
+            android:textColor="?attr/colorOnSurface"
+            android:backgroundTint="?attr/colorSurface"
             app:cornerRadius="20dp"
-            app:icon="@drawable/gallery" />
+            app:strokeWidth="2dp"
+            app:strokeColor="?attr/colorOutline"
+            app:icon="@drawable/gallery"
+            app:iconTint="?attr/colorOnSurface" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

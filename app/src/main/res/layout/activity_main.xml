@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -10,14 +11,32 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/chili"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Katanya Sih Seblak"
+                android:textSize="33sp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:textStyle="bold|italic"/>
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tvSelamat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Glad you're here, Bojo Markliee!"
+            android:text="Selamat Datang, WNI!"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="35dp"/>
 
         <TextView
             android:id="@+id/tvTanggal"
@@ -51,7 +70,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Today's estimate"
+                        android:text="Pendapatan Hari Ini"
                         android:textSize="18sp"
                         android:textStyle="bold"/>
 
@@ -60,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rp 0"
-                        android:textSize="18sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
 
@@ -79,14 +98,18 @@
                         android:gravity="center">
 
                         <ImageView
+                            android:id="@+id/ivTransaksi"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/transaksi" />
+                            android:src="@drawable/transaksi"
+                            android:contentDescription="transaksi"
+                            android:clickable="true"
+                            android:focusable="true"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Transaction"
+                            android:text="Transaksi"
                             android:textSize="14sp"
                             android:layout_marginTop="8dp"/>
                     </LinearLayout>
@@ -101,14 +124,18 @@
                         android:gravity="center">
 
                         <ImageView
+                            android:id="@+id/ivLaporan"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/laporan" />
+                            android:src="@drawable/laporan"
+                            android:contentDescription="laporan"
+                            android:clickable="true"
+                            android:focusable="true"/>
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Report"
+                            android:text="Laporan"
                             android:textSize="14sp"
                             android:layout_marginTop="8dp"/>
                     </LinearLayout>
@@ -119,16 +146,16 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="From Heart to Hearts"
-            android:textSize="18sp"
+            android:text="Atur Aja Kak"
+            android:textSize="20dp"
             android:textStyle="bold"
             android:layout_marginTop="24dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="where sincerity matters"
-            android:textSize="14sp"
+            android:text="Kakak kan Panitia"
+            android:textSize="20dp"
             android:layout_marginTop="4dp"/>
 
         <LinearLayout
@@ -140,11 +167,14 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardAkun"
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -154,27 +184,30 @@
                     android:padding="16dp">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:src="@drawable/akun" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Account"
+                        android:text="Akun"
                         android:textSize="16sp"
                         android:layout_marginTop="12dp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardLayanan"
+                android:id="@+id/cardProduk"
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -184,27 +217,30 @@
                     android:padding="16dp">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:src="@drawable/product" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Product"
+                        android:text="Produk"
                         android:textSize="16sp"
                         android:layout_marginTop="12dp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardTambahan"
+                android:id="@+id/cardKategori"
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -214,14 +250,14 @@
                     android:padding="16dp">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:src="@drawable/category2"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Category"
+                        android:text="Kategori"
                         android:textSize="16sp"
                         android:layout_marginTop="12dp"/>
                 </LinearLayout>
@@ -237,11 +273,14 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardPegawai"
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -251,14 +290,14 @@
                     android:padding="16dp">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:src="@drawable/pegawai" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Employee"
+                        android:text="Karyawan"
                         android:textSize="16sp"
                         android:layout_marginTop="12dp"/>
                 </LinearLayout>
@@ -267,11 +306,14 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardCabang"
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -281,14 +323,14 @@
                     android:padding="16dp">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:src="@drawable/cabang"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Branch"
+                        android:text="Outlet"
                         android:textSize="16sp"
                         android:layout_marginTop="12dp"/>
                 </LinearLayout>
@@ -297,11 +339,14 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardPrinter"
                 android:layout_width="0dp"
-                android:layout_height="140dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
                 android:layout_margin="4dp"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="2dp">
+                app:cardElevation="2dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -311,8 +356,8 @@
                     android:padding="16dp">
 
                     <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
                         android:src="@drawable/printer"/>
 
                     <TextView

@@ -1,4 +1,4 @@
-package com.apni.pos.kategori
+package com.apni.pos.produk
 
 class DataProdukActivity {
 }

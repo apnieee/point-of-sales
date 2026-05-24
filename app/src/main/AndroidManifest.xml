@@ -19,7 +19,13 @@
             android:name=".kategori.DataKategoriActivity"
             android:exported="true" />
         <activity
-            android:name=".kategori.MainActivity"
+            android:name=".transaksi.ModTransaksiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".transaksi.TransaksiActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

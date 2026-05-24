@@ -1,11 +1,13 @@
-package com.apni.pos.kategori
+package com.apni.pos
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.appcompat.app.AppCompatActivity
-import com.apni.pos.R
+import com.apni.pos.kategori.DataKategoriActivity
+import com.apni.pos.transaksi.TransaksiActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -15,9 +17,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTanggal: TextView
     private lateinit var tvEstimasi: TextView
 
+    private lateinit var ivTransaksi: ImageView
+    private lateinit var ivLaporan: ImageView
+
     private lateinit var cardAkun: CardView
-    private lateinit var cardLayanan: CardView
-    private lateinit var cardTambahan: CardView
+    private lateinit var cardProduk: CardView
+    private lateinit var cardKategori: CardView
     private lateinit var cardPegawai: CardView
     private lateinit var cardCabang: CardView
     private lateinit var cardPrinter: CardView
@@ -35,9 +40,12 @@ class MainActivity : AppCompatActivity() {
         tvTanggal   = findViewById(R.id.tvTanggal)
         tvEstimasi  = findViewById(R.id.tvEstimasi)
 
+        ivTransaksi = findViewById(R.id.ivTransaksi)
+        ivLaporan = findViewById(R.id.ivLaporan)
+
         cardAkun     = findViewById(R.id.cardAkun)
-        cardLayanan  = findViewById(R.id.cardLayanan)
-        cardTambahan = findViewById(R.id.cardTambahan)
+        cardProduk  = findViewById(R.id.cardProduk)
+        cardKategori = findViewById(R.id.cardKategori)
         cardPegawai  = findViewById(R.id.cardPegawai)
         cardCabang   = findViewById(R.id.cardCabang)
         cardPrinter  = findViewById(R.id.cardPrinter)
@@ -54,11 +62,11 @@ class MainActivity : AppCompatActivity() {
             // startActivity(Intent(this, AkunActivity::class.java))
         }
 
-        cardLayanan.setOnClickListener {
-            // startActivity(Intent(this, LayananActivity::class.java))
+        cardProduk.setOnClickListener {
+            // startActivity(Intent(this, ProdukActivity::class.java))
         }
 
-        cardTambahan.setOnClickListener {
+        cardKategori.setOnClickListener {
             startActivity(Intent(this, DataKategoriActivity::class.java))
         }
 
@@ -72,6 +80,10 @@ class MainActivity : AppCompatActivity() {
 
         cardPrinter.setOnClickListener {
             // startActivity(Intent(this, PrinterActivity::class.java))
+        }
+
+        ivTransaksi.setOnClickListener {
+            startActivity(Intent(this, TransaksiActivity::class.java))
         }
     }
 }

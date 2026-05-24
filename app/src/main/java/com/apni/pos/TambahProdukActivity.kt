@@ -11,30 +11,24 @@ import com.google.firebase.database.FirebaseDatabase
 
 class TambahProdukActivity : AppCompatActivity() {
 
-    // FIREBASE
     private lateinit var database: DatabaseReference
 
-    // FOTO
     private lateinit var imgProduk: ImageView
     private lateinit var btnKamera: MaterialButton
     private lateinit var btnGaleri: MaterialButton
 
-    // INFORMASI
     private lateinit var etNamaProduk: TextInputEditText
     private lateinit var etSKU: TextInputEditText
     private lateinit var etBarcode: TextInputEditText
 
-    // HARGA
     private lateinit var etHargaBeli: TextInputEditText
     private lateinit var spinnerTipeKeuntungan: Spinner
     private lateinit var etNilaiProfit: TextInputEditText
     private lateinit var etHargaJual: TextInputEditText
 
-    // STOK
     private lateinit var etStok: TextInputEditText
     private lateinit var cbStok: CheckBox
 
-    // BUTTON
     private lateinit var btnSimpan: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,18 +46,15 @@ class TambahProdukActivity : AppCompatActivity() {
 
     private fun init() {
 
-        // FOTO
         imgProduk = findViewById(R.id.imgProduk)
 
         btnKamera = findViewById(R.id.btnKamera)
         btnGaleri = findViewById(R.id.btnGaleri)
 
-        // INFORMASI
         etNamaProduk = findViewById(R.id.etNamaKategori)
         etSKU = findViewById(R.id.etSKU)
         etBarcode = findViewById(R.id.etBarcode)
 
-        // HARGA
         etHargaBeli = findViewById(R.id.etHargaBeli)
         spinnerTipeKeuntungan =
             findViewById(R.id.spinnerTipeKeuntungan)
@@ -71,11 +62,9 @@ class TambahProdukActivity : AppCompatActivity() {
         etNilaiProfit = findViewById(R.id.etNilaiProfit)
         etHargaJual = findViewById(R.id.etHargaJual)
 
-        // STOK
         etStok = findViewById(R.id.etStok)
         cbStok = findViewById(R.id.cbStok)
 
-        // BUTTON
         btnSimpan = findViewById(R.id.btnSimpan)
     }
 
@@ -164,7 +153,7 @@ class TambahProdukActivity : AppCompatActivity() {
 
         val idProduk = database.push().key!!
 
-        val produk = Produk(
+        val produkActivity = ProdukActivity(
 
             etNamaProduk.text.toString(),
             etSKU.text.toString(),
@@ -175,7 +164,7 @@ class TambahProdukActivity : AppCompatActivity() {
         )
 
         database.child(idProduk)
-            .setValue(produk)
+            .setValue(produkActivity)
             .addOnSuccessListener {
 
                 Toast.makeText(

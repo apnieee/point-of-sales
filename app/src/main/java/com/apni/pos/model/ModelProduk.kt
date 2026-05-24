@@ -1,4 +1,4 @@
-package com.apni.pos.model
+package com.apni.pos.produk
 
 class ModelProduk {
 }

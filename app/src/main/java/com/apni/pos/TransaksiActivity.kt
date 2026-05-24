@@ -1,55 +1,80 @@
 package com.apni.pos.transaksi
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.apni.pos.R
-import com.example.pos.TransaksiAdapter
+import com.apni.pos.databinding.ActivityDataTransaksiBinding
+import com.google.firebase.database.*
 
 class TransaksiActivity : AppCompatActivity() {
 
-    private lateinit var rvTransaksi: RecyclerView
-    private lateinit var transaksiAdapter: TransaksiAdapter
-    private lateinit var listTransaksi: ArrayList<Transaksi>
+    private lateinit var binding: ActivityDataTransaksiBinding
+    private lateinit var database: DatabaseReference
+    private lateinit var adapter: TransaksiAdapter
+
+    private var list = ArrayList<ModelTransaksi>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_transaksi)
 
-        rvTransaksi = findViewById(R.id.rvTransaksi)
+        binding =
+            ActivityDataTransaksiBinding.inflate(layoutInflater)
 
-        listTransaksi = arrayListOf(
+        setContentView(binding.root)
 
-            Transaksi(
-                "Rp 120.000",
-                "10:30",
-                "TRX-001",
-                "Lunas"
-            ),
+        database =
+            FirebaseDatabase.getInstance()
+                .getReference("transactions")
 
-            Transaksi(
-                "Rp 75.000",
-                "11:00",
-                "TRX-002",
-                "Refund"
-            ),
+        binding.rvTransaksi.layoutManager =
+            LinearLayoutManager(this)
 
-            Transaksi(
-                "Rp 50.000",
-                "11:45",
-                "TRX-003",
-                "Batal"
+        adapter = TransaksiAdapter(this, list)
+
+        binding.rvTransaksi.adapter = adapter
+
+        getData()
+
+        binding.fabTambah.setOnClickListener {
+
+            startActivity(
+                Intent(
+                    this,
+                    ModTransaksiActivity::class.java
+                )
             )
-        )
-
-        transaksiAdapter = TransaksiAdapter(listTransaksi)
-
-        rvTransaksi.layoutManager = LinearLayoutManager(this)
-        rvTransaksi.adapter = transaksiAdapter
+        }
     }
 
-    class Transaksi(s: String, s1: String, s2: String, s3: String) {
+    private fun getData() {
 
+        database.addValueEventListener(
+            object : ValueEventListener {
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    list.clear()
+
+                    for (dataSnapshot in snapshot.children) {
+
+                        val transaksi =
+                            dataSnapshot.getValue(
+                                ModelTransaksi::class.java
+                            )
+
+                        transaksi?.let {
+                            list.add(it)
+                        }
+                    }
+
+                    adapter.notifyDataSetChanged()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+            }
+        )
     }
 }

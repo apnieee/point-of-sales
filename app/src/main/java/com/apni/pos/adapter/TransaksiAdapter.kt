@@ -1,58 +1,55 @@
 package com.apni.pos.transaksi
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.apni.pos.R
+import com.apni.pos.databinding.ItemDataTransaksiBinding
 
 class TransaksiAdapter(
-    private val listTransaksi: ArrayList<Transaksi>
+    private val context: Context,
+    private val list: ArrayList<ModelTransaksi>
 ) : RecyclerView.Adapter<TransaksiAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        val tvHarga: TextView = itemView.findViewById(R.id.tvHarga)
-        val tvJam: TextView = itemView.findViewById(R.id.tvJam)
-        val tvKode: TextView = itemView.findViewById(R.id.tvKode)
-        val tvStatus: TextView = itemView.findViewById(R.id.tvStatus)
-    }
+    class ViewHolder(val binding: ItemDataTransaksiBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_transaksi, parent, false)
+        val binding = ItemDataTransaksiBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
 
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
-    override fun getItemCount(): Int {
-        return listTransaksi.size
-    }
+    override fun getItemCount(): Int = list.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val transaksi = listTransaksi[position]
+        val data = list[position]
 
-        holder.tvHarga.text = transaksi.harga
-        holder.tvJam.text = transaksi.jam
-        holder.tvKode.text = transaksi.kode
-        holder.tvStatus.text = transaksi.status
+        holder.binding.tvQty.text = "${position + 1}"
+        holder.binding.tvNamaMenu.text = data.kode
+        holder.binding.tvDetail.text = data.detail
+        holder.binding.tvHarga.text = data.total
 
-        when (transaksi.status) {
+        holder.itemView.setOnClickListener {
 
-            "Lunas" -> {
-                holder.tvStatus.setBackgroundResource(R.drawable.bg_status_lunas)
-            }
+            val intent = Intent(holder.itemView.context, DetailTransaksiActivity::class.java)
 
-            "Refund" -> {
-                holder.tvStatus.setBackgroundResource(R.drawable.bg_status_refund)
-            }
+            intent.putExtra("kode", data.kode)
+            intent.putExtra("total", data.total)
+            intent.putExtra("jam", data.jam)
+            intent.putExtra("status", data.status)
+            intent.putExtra("detail", data.detail)
+            intent.putExtra("tanggal", data.tanggal)
+            intent.putExtra("pembayaran", data.pembayaran)
 
-            "Batal" -> {
-                holder.tvStatus.setBackgroundResource(R.drawable.bg_status_batal)
-            }
+            holder.itemView.context.startActivity(intent)
         }
     }
 }
