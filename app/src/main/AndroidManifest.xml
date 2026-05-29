@@ -2,7 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-feature android:name="android.hardware.bluetooth" android:required="true" />
+
     <application
+        android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -10,29 +21,40 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Pos">
+        android:theme="@style/Theme.Pos"
+        tools:targetApi="31">
 
         <activity
-            android:name=".kategori.ModKategoriActivity"
-            android:exported="true" />
-        <activity
-            android:name=".kategori.DataKategoriActivity"
-            android:exported="true" />
-        <activity
-            android:name=".transaksi.ModTransaksiActivity"
-            android:exported="true" />
-        <activity
-            android:name=".transaksi.TransaksiActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <activity android:name=".MainActivity" android:exported="false" />
+
+        <activity android:name=".outlet.ModOutletActivity" android:exported="false" />
+
+        <activity android:name=".pelanggan.DataPelangganActivity" android:exported="false" />
+        <activity android:name=".pelanggan.ModPelangganActivity" android:exported="false" />
+
+        <activity android:name=".karyawan.DataKaryawanActivity" android:exported="false" />
+        <activity android:name=".karyawan.ModKaryawanActivity" android:exported="false" />
+
+        <activity android:name=".kategori.DataKategoriActivity" android:exported="false" />
+        <activity android:name=".kategori.ModKategoriActivity" android:exported="false" />
+
+        <activity android:name=".produk.DataProdukActivity" android:exported="false" />
+        <activity android:name=".produk.ModProdukActivity" android:exported="false" />
+
+        <activity android:name=".transaksi.TransaksiActivity" android:exported="false" />
+        <activity android:name=".transaksi.DetailTransaksiActivity" android:exported="false" />
+
+        <activity android:name=".laporan.LaporanActivity" android:exported="false" />
+        <activity android:name=".printer.PrinterActivity" android:exported="false" />
+        <activity android:name=".ProfileActivity" android:exported="false" />
+
+    </application>
 </manifest>

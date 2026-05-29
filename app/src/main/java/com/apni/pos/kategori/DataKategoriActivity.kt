@@ -1,70 +1,71 @@
 package com.apni.pos.kategori
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.apni.pos.R
 import com.apni.pos.adapter.DetailKategoriAdapter
+import com.apni.pos.databinding.ActivityDataKategoriBinding
+import com.apni.pos.model.ModelKategori
 import com.apni.pos.viewmodel.DataKategoriViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class DataKategoriActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityDataKategoriBinding
     private val viewModel: DataKategoriViewModel by viewModels()
-    private lateinit var rvKategori: RecyclerView
-    private lateinit var fabTambah: FloatingActionButton
-
-    private lateinit var adapter: DetailKategoriAdapter
-    private var listKategori: MutableList<ModelKategori> = mutableListOf()
-
+    private lateinit var adapterKategori: DetailKategoriAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_data_kategori)
+        binding = ActivityDataKategoriBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        init()
-        fun showKategoriDetailFragment(kategori: ModelKategori) {
-            Toast.makeText(this, "Klik: ${kategori.namaKategori}", Toast.LENGTH_SHORT).show()
+        setupRecyclerView()
+        setupSearchBar()
+
+        binding.fabTambah.setOnClickListener {
+            startActivity(Intent(this, ModKategoriActivity::class.java))
         }
 
-        val layoutManager = LinearLayoutManager(this)
-        layoutManager.reverseLayout = true
-        layoutManager.stackFromEnd = true
-        rvKategori.layoutManager = layoutManager
-        rvKategori.setHasFixedSize(true)
-
-        viewModel.kategoriList.observe(this) { list ->
-            adapter = DetailKategoriAdapter(list)
-            rvKategori.adapter = adapter
-
-            adapter.setOnClickListener(object : DetailKategoriAdapter.OnItemClickListener {
-                override fun onItemClick(kategori: ModelKategori) {
-                    if (!kategori.idKategori.isNullOrBlank()) {
-                        showKategoriDetailFragment(kategori)
-                    } else {
-                        Toast.makeText(
-                            this@DataKategoriActivity, "Galat: {getString(R.string.data_kategori_tidak_valid)}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            })
+        binding.ivReload.setOnClickListener {
+            binding.etSearch.text?.clear()
+            viewModel.listKategori.value?.let { adapterKategori.updateData(it) }
         }
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        binding.ivkembali.setOnClickListener { finish() }
+    }
+
+    private fun setupRecyclerView() {
+        adapterKategori = DetailKategoriAdapter(emptyList()) { kategoriTerpilih ->
+            val intent = Intent(this, ModKategoriActivity::class.java).apply {
+                putExtra("DATA_KATEGORI", kategoriTerpilih)
+            }
+            startActivity(intent)
+        }
+
+        binding.rvKategori.apply {
+            layoutManager = LinearLayoutManager(this@DataKategoriActivity)
+            adapter = adapterKategori
+        }
+
+        viewModel.listKategori.observe(this) { list ->
+            adapterKategori.updateData(list)
         }
     }
 
-    fun init() {
-        rvKategori = findViewById(R.id.rvKategori)
-        fabTambah = findViewById(R.id.fabTambah)
+    private fun setupSearchBar() {
+        binding.etSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val query = s.toString().lowercase()
+                val masterList = viewModel.listKategori.value ?: mutableListOf()
+                val filteredList = masterList.filter { it.namaKategori.lowercase().contains(query) }
+                adapterKategori.updateData(filteredList)
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
     }
-
 }

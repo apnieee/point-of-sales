@@ -83,6 +83,7 @@
                         android:textStyle="bold"/>
                 </LinearLayout>
 
+                <!-- BARIS MENU UTAMA: KINI MENJADI 3 KOLOM SEJAJAR -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -90,6 +91,7 @@
                     android:gravity="center"
                     android:layout_marginTop="24dp">
 
+                    <!-- 1. Menu Transaksi (Kiri) -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -114,8 +116,31 @@
                             android:layout_marginTop="8dp"/>
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="center">
 
+                        <ImageView
+                            android:id="@+id/ivPelanggan"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/kustomer"
+                            android:contentDescription="pelanggan"
+                            android:clickable="true"
+                            android:focusable="true"/>
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pelanggan"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp"/>
+                    </LinearLayout>
+
+                    <!-- 3. Menu Laporan (Kanan) -->
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -139,6 +164,7 @@
                             android:textSize="14sp"
                             android:layout_marginTop="8dp"/>
                     </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -147,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Atur Aja Kak"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:layout_marginTop="24dp"/>
 
@@ -155,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kakak kan Panitia"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_marginTop="4dp"/>
 
         <LinearLayout

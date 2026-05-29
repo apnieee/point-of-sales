@@ -26,6 +26,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tvTitleMod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tambah Produk"
@@ -54,10 +55,36 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/layout_foto_produk"/>
-            <include layout="@layout/layout_informasi_produk"/>
-            <include layout="@layout/layout_harga_produk"/>
-            <include layout="@layout/layout_stok"/>
+            <include
+                android:id="@+id/layout_foto"
+                layout="@layout/layout_foto_produk"/>
+
+            <include
+                android:id="@+id/layout_informasi"
+                layout="@layout/layout_informasi_produk"/>
+
+            <include
+                android:id="@+id/layout_kategori"
+                layout="@layout/layout_kategori_produk"/>
+
+            <include
+                android:id="@+id/layout_harga"
+                layout="@layout/layout_harga_produk"/>
+
+            <include
+                android:id="@+id/layout_stok"
+                layout="@layout/layout_stok"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSimpanProduk"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="16dp"
+                android:text="Simpan Produk"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:cornerRadius="12dp" />
 
         </LinearLayout>
     </ScrollView>

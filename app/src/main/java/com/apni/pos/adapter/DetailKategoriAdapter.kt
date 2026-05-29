@@ -1,71 +1,51 @@
 package com.apni.pos.adapter
 
-import android.app.Activity
-import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.apni.pos.R
-import com.apni.pos.kategori.ModelKategori
-import com.google.android.material.chip.Chip
+import com.apni.pos.databinding.ItemDataKategoriBinding
+import com.apni.pos.model.ModelKategori
 
-class DetailKategoriAdapter (private val kategoriList: List<ModelKategori>) :
-    RecyclerView.Adapter<DetailKategoriAdapter.KategoriViewHolder>() {
-    lateinit var appContext: Context
-    interface OnItemClickListener {
-        fun onItemClick(kategori: ModelKategori)
-    }
-    private var listener: OnItemClickListener? = null
+class DetailKategoriAdapter(
+    private var listKategori: List<ModelKategori>,
+    private val onClick: (ModelKategori) -> Unit
+) : RecyclerView.Adapter<DetailKategoriAdapter.ViewHolder>() {
 
-    fun setOnClickListener(listener: OnItemClickListener){
-        this.listener = listener
-    }
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): DetailKategoriAdapter.KategoriViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_data_kategori, parent, false
-        )
-        appContext = parent.context
-        return KategoriViewHolder(view)
+    inner class ViewHolder(val binding: ItemDataKategoriBinding) : RecyclerView.ViewHolder(binding.root)
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemDataKategoriBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: KategoriViewHolder, position: Int) {
-        val kategori = kategoriList[position]
-        holder.bind(kategori)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val kategori = listKategori[position]
 
-        holder.itemView.setOnClickListener{
-            listener?.onItemClick(kategori)
-        }
-    }
+        holder.binding.apply {
+            tvKategori.text = kategori.namaKategori
+            chipStatus.text = kategori.statusKategori
 
-    override fun getItemCount(): Int {
-        return kategoriList.size
-    }
-
-    inner class KategoriViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView){
-        val tvNamaKategori: TextView = itemView.findViewById(R.id.tvKategori)
-        val chipStatus: Chip = itemView.findViewById(R.id.chipStatus)
-
-        fun bind(kategori: ModelKategori) {
-            tvNamaKategori.text = kategori.namaKategori
-
-            val status = kategori.statusKategori
-
-            if (status == "Aktif" || status == "Tidak Aktif") {
-                chipStatus.text = (appContext as Activity).getString(R.string.status_aktif)
-                chipStatus.setChipBackgroundColorResource(R.color.status_active_bg)
-                chipStatus.setTextColor(
-                    itemView.context.getColor(R.color.status_active_text)
-                )
-                chipStatus.setChipIconResource(R.drawable.check)
-                chipStatus.setChipIconTintResource(R.color.status_active_text)
+            if (kategori.statusKategori.equals("Aktif", ignoreCase = true)) {
+                val warnaHijau = ContextCompat.getColor(root.context, android.R.color.holo_green_light)
+                chipStatus.chipBackgroundColor = ColorStateList.valueOf(warnaHijau)
+                chipStatus.setTextColor(Color.BLACK)
             } else {
-                chipStatus.text = (appContext as Activity).getString(R.string.status_nonaktif)
+                val warnaAbu = ContextCompat.getColor(root.context, android.R.color.darker_gray)
+                chipStatus.chipBackgroundColor = ColorStateList.valueOf(warnaAbu)
+                chipStatus.setTextColor(Color.WHITE)
             }
+
+            root.setOnClickListener { onClick(kategori) }
         }
+    }
+
+    override fun getItemCount(): Int = listKategori.size
+
+    fun updateData(newList: List<ModelKategori>) {
+        listKategori = newList
+        notifyDataSetChanged()
     }
 }

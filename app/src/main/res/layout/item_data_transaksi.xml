@@ -1,79 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.google.android.material.card.MaterialCardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="14dp"
-    app:cardElevation="1dp">
+    android:layout_margin="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    tools:layout_width="180dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvQty"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_qty"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp">
+
+            <ImageView
+                android:id="@+id/ivProduk"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/productjg"
+                android:contentDescription="Foto Produk" />
+
+            <TextView
+                android:id="@+id/tvDiskon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="3dp"
+                android:text="20% OFF"
+                android:textSize="10sp"
+                android:background="@drawable/bg_badge_diskon"
+                android:textStyle="bold" />
+        </FrameLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
-                android:id="@+id/tvNamaMenu"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvNamaProduk"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Nama Isian Seblak Prasmanan" />
 
-            <TextView
-                android:id="@+id/tvDetail"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="4dp"
-                android:text=""
-                android:textColor="?attr/colorOutline"
-                android:textSize="13sp" />
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/tvLihatDetail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Lihat Detail Transaksi >"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="13sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvHarga"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp 15.000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/btnTambah"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/plus"
+                    app:tint="?attr/colorOnBackground"
+                    android:padding="6dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/layoutQty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/btnKurang"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/minus"
+                        app:tint="?attr/colorOnBackground"
+                        android:contentDescription="Kurang"
+                        android:padding="6dp" />
+
+                    <TextView
+                        android:id="@+id/tvQty"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="1"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:gravity="center" />
+
+                    <ImageView
+                        android:id="@+id/btnTambahQty"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/plus"
+                        app:tint="?attr/colorOnBackground"
+                        android:contentDescription="Tambah"
+                        android:padding="6dp" />
+                </LinearLayout>
+
+            </FrameLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvHarga"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
     </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

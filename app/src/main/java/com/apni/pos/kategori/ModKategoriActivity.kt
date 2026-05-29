@@ -2,87 +2,75 @@ package com.apni.pos.kategori
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.apni.pos.R
-import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import com.apni.pos.databinding.ActivityModKategoriBinding
+import com.apni.pos.model.ModelKategori
 import com.google.firebase.database.FirebaseDatabase
 
 class ModKategoriActivity : AppCompatActivity() {
-    private lateinit var etNamaKategori: TextInputEditText
-    private lateinit var tilNamaKategori: TextInputLayout
-    private lateinit var tilStatusKategori: TextInputLayout
-    private lateinit var actStatusKategori: AutoCompleteTextView
-    private lateinit var btnSimpan: MaterialButton
-    private lateinit var ivKembali: ImageView
 
-    private val database = FirebaseDatabase.getInstance()
-    private val myRef = database.getReference("kategori")
+    private lateinit var binding: ActivityModKategoriBinding
+    private var dataLama: ModelKategori? = null
+    private var isEditMode = false
+    private val dbRef = FirebaseDatabase.getInstance("https://com-apni-pos-default-rtdb.firebaseio.com/").getReference("Kategori")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_mod_kategori)
-        init()
-        setupDropdown()
+        binding = ActivityModKategoriBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btnSimpan.setOnClickListener { simpan() }
-        ivKembali.setOnClickListener { finish() }
+        setupDropdownStatus()
+        cekIntentData()
+
+        binding.btnSimpan.setOnClickListener { simpanKeFirebase() }
+        binding.ivkembali.setOnClickListener { finish() }
     }
 
-    private fun setupDropdown() {
-        val statusOptions = resources.getStringArray(R.array.status)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, statusOptions)
-        actStatusKategori.setAdapter(adapter)
+    private fun setupDropdownStatus() {
+        val listStatus = arrayOf("Aktif", "Tidak Aktif")
+        val adapterDropdown = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, listStatus)
+        binding.actStatusKategori.setAdapter(adapterDropdown)
     }
 
-    private fun simpan() {
-        val nama = etNamaKategori.text.toString().trim()
-        val selectedStatus = actStatusKategori.text.toString().trim()
+    private fun cekIntentData() {
+        dataLama = intent.getParcelableExtra("DATA_KATEGORI")
+        if (dataLama != null) {
+            isEditMode = true
+            binding.etNamaKategori.setText(dataLama?.namaKategori)
+            binding.actStatusKategori.setText(dataLama?.statusKategori, false)
+            binding.btnSimpan.text = "Perbarui Kategori"
+        }
+    }
 
-        if (nama.isEmpty()) {
-            tilNamaKategori.error = "Nama kategori tidak boleh kosong"
+    private fun simpanKeFirebase() {
+        val namaInput = binding.etNamaKategori.text.toString().trim()
+        val statusInput = binding.actStatusKategori.text.toString()
+
+        if (namaInput.isEmpty()) {
+            binding.tilNamaKategori.error = "Nama kategori tidak boleh kosong!"
             return
         } else {
-            tilNamaKategori.error = null
+            binding.tilNamaKategori.error = null
         }
 
-        if (selectedStatus.isEmpty()) {
-            tilStatusKategori.error = "Status tidak boleh kosong"
-            return
+        val idKategori = if (isEditMode) {
+            dataLama!!.idKategori
         } else {
-            tilStatusKategori.error = null
+            dbRef.push().key ?: "KAT${System.currentTimeMillis()}"
         }
 
-        val kategoriBaru = myRef.push()
-        val kategoriId = kategoriBaru.key
+        val kategoriData = ModelKategori(idKategori, namaInput, statusInput)
 
-        val data = mapOf(
-            "id" to kategoriId,
-            "namaKategori" to nama,
-            "statusKategori" to selectedStatus
-        )
-
-        kategoriBaru.setValue(data)
+        dbRef.child(idKategori).setValue(kategoriData)
             .addOnSuccessListener {
-                Toast.makeText(this, "Kategori berhasil disimpan", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Berhasil simpan ke Firebase!", Toast.LENGTH_SHORT).show()
                 finish()
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Gagal menyimpan: ${e.message}", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener {
+                Toast.makeText(this, "Gagal: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
-    private fun init() {
-        etNamaKategori = findViewById(R.id.etNamaKategori)
-        tilNamaKategori = findViewById(R.id.tilNamaKategori)
-        tilStatusKategori = findViewById(R.id.tilStatusKategori)
-        actStatusKategori = findViewById(R.id.actStatusKategori)
-        btnSimpan = findViewById(R.id.btnSimpan)
-        ivKembali = findViewById(R.id.ivkembali)
-    }
+
+        val idKategori = if (isEditMode) dataLama!!.idKategori else "KAT${System.currentTimeMillis().toString().takeLast(4)}"
 }
