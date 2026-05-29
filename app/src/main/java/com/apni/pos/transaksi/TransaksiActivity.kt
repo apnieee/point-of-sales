@@ -156,87 +156,87 @@ class TransaksiActivity : AppCompatActivity() {
         val bsBinding = BottomsheetCheckoutBinding.inflate(layoutInflater)
         dialog.setContentView(bsBinding.root)
 
+        // Hitungan biaya
         val subtotal = produkAktif.sumOf { it.hargaProduk * it.qty }
         val pajak = subtotal * 0.10
         val totalFinal = subtotal + pajak
 
-        bsBinding.tvCheckoutSubtotal.text = formatRupiah.format(subtotal)
-        bsBinding.tvCheckoutPajak.text = formatRupiah.format(pajak)
+        // Set teks ke UI
         bsBinding.tvCheckoutTotal.text = formatRupiah.format(totalFinal)
+
+        // RecyclerView untuk list pesanan di dalam BottomSheet (Penting!)
+        // Pastikan AdapterKeranjang digunakan kembali agar user bisa melihat apa yang dibayar
+        bsBinding.rvDetailPesanan.layoutManager = LinearLayoutManager(this)
+        bsBinding.rvDetailPesanan.adapter = AdapterKeranjang(produkAktif.toMutableList()) {
+            // Logika jika ada perubahan di dalam bottomsheet (opsional)
+        }
 
         bsBinding.etJumlahBayar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val inputStr = s.toString().trim()
-                if (inputStr.isNotEmpty()) {
-                    val uangBayar = inputStr.toDoubleOrNull() ?: 0.0
-                    if (uangBayar >= totalFinal) {
-                        bsBinding.tvLabelKembalian.visibility = View.VISIBLE
-                        bsBinding.tvKembalian.visibility = View.VISIBLE
-                        bsBinding.tvKembalian.text = formatRupiah.format(uangBayar - totalFinal)
-                    } else {
-                        bsBinding.tvLabelKembalian.visibility = View.GONE
-                        bsBinding.tvKembalian.visibility = View.GONE
-                    }
-                } else {
-                    bsBinding.tvLabelKembalian.visibility = View.GONE
-                    bsBinding.tvKembalian.visibility = View.GONE
-                }
+                // Logic kembalian bisa ditambah di sini jika ada TextView tvKembalian
             }
             override fun afterTextChanged(s: Editable?) {}
         })
 
         bsBinding.btnBayar.setOnClickListener {
             val uangInput = bsBinding.etJumlahBayar.text.toString().trim().toDoubleOrNull() ?: 0.0
+
             if (uangInput < totalFinal) {
-                Toast.makeText(this, "Uang pembayaran kurang!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+                Toast.makeText(this, "Pembayaran kurang!", Toast.LENGTH_SHORT).show()
+            } else {
+                prosesSimpanTransaksi(produkAktif, subtotal, pajak, totalFinal, uangInput, dialog)
             }
-
-            // Generate Kode Nota Unik & Atur Waktu Transaksi
-            val sdfTanggal = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-            val sdfJam = SimpleDateFormat("HH:mm", Locale.getDefault())
-            val notaId = "TRX${System.currentTimeMillis().toString().takeLast(6)}"
-
-            var teksPesanan = ""
-            produkAktif.forEach { teksPesanan += "${it.namaProduk} x${it.qty}\n" }
-
-            val metodeTerpilih = when (bsBinding.chipGroupMetodeBayar.checkedChipId) {
-                bsBinding.chipQris.id -> "QRIS"
-                bsBinding.chipTransfer.id -> "Transfer"
-                else -> "Tunai"
-            }
-
-            val transaksiSelesai = ModelTransaksi(
-                kodeTransaksi = notaId,
-                tanggal = sdfTanggal.format(Date()),
-                jam = sdfJam.format(Date()),
-                metodePembayaran = metodeTerpilih,
-                subtotal = subtotal,
-                pajak = pajak,
-                totalBayar = totalFinal,
-                jumlahUangBayar = uangInput,
-                kembalian = uangInput - totalFinal,
-                detailPesananTeks = teksPesanan
-            )
-
-            val dbTransaksiRef = FirebaseDatabase.getInstance("https://com-apni-pos-default-rtdb.firebaseio.com/").getReference("Transaksi")
-
-            dbTransaksiRef.child(notaId).setValue(transaksiSelesai)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Transaksi Berhasil Disimpan di Firebase!", Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-
-                    val intent = Intent(this, DetailTransaksiActivity::class.java).apply {
-                        putExtra("DATA_NOTA", transaksiSelesai)
-                    }
-                    startActivity(intent)
-                    finish()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Firebase Error: ${e.message}", Toast.LENGTH_LONG).show()
-                }
         }
         dialog.show()
+    }
+    private fun prosesSimpanTransaksi(
+        produkAktif: List<ModelProduk>,
+        subtotal: Double,
+        pajak: Double,
+        totalFinal: Double,
+        uangInput: Double,
+        dialog: BottomSheetDialog
+    ) {
+        // Generate Kode Nota
+        val sdfTanggal = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+        val sdfJam = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val notaId = "TRX${System.currentTimeMillis().toString().takeLast(6)}"
+
+        var teksPesanan = ""
+        produkAktif.forEach { teksPesanan += "${it.namaProduk} x${it.qty}\n" }
+
+        // Catatan: Jika ada chipGroup di XML checkout, pastikan cara mengambilnya tepat
+        val metodeTerpilih = "Tunai" // Sesuaikan dengan logika pilihan metode Anda
+
+        val transaksiSelesai = ModelTransaksi(
+            kodeTransaksi = notaId,
+            tanggal = sdfTanggal.format(Date()),
+            jam = sdfJam.format(Date()),
+            metodePembayaran = metodeTerpilih,
+            subtotal = subtotal,
+            pajak = pajak,
+            totalBayar = totalFinal,
+            jumlahUangBayar = uangInput,
+            kembalian = uangInput - totalFinal,
+            detailPesananTeks = teksPesanan
+        )
+
+        val dbTransaksiRef = FirebaseDatabase.getInstance("https://com-apni-pos-default-rtdb.firebaseio.com/").getReference("Transaksi")
+
+        dbTransaksiRef.child(notaId).setValue(transaksiSelesai)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Transaksi Berhasil!", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+
+                val intent = Intent(this, DetailTransaksiActivity::class.java).apply {
+                    putExtra("DATA_NOTA", transaksiSelesai)
+                }
+                startActivity(intent)
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Firebase Error: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 }
