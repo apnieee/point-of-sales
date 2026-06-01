@@ -37,7 +37,15 @@ class DataKategoriViewModel : ViewModel() {
         })
     }
 
-    fun getKategoriAktifOnly(): List<ModelKategori> {
-        return _listKategori.value?.filter { it.statusKategori == "Aktif" } ?: emptyList()
+    fun updateKategori(kategori: ModelKategori) {
+        val database = FirebaseDatabase.getInstance().getReference("Kategori")
+        database.child(kategori.idKategori).setValue(kategori)
+            .addOnFailureListener {
+            }
+    }
+
+    fun hapusKategori(kategoriId: String) {
+        val database = FirebaseDatabase.getInstance().getReference("Kategori")
+        database.child(kategoriId).removeValue()
     }
 }

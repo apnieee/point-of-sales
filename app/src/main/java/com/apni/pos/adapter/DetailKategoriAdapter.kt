@@ -11,7 +11,9 @@ import com.apni.pos.model.ModelKategori
 
 class DetailKategoriAdapter(
     private var listKategori: List<ModelKategori>,
-    private val onClick: (ModelKategori) -> Unit
+    private val onClick: (ModelKategori) -> Unit,
+    private val onStatusClick: (ModelKategori) -> Unit,
+    private val onDeleteClick: (ModelKategori) -> Unit
 ) : RecyclerView.Adapter<DetailKategoriAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemDataKategoriBinding) : RecyclerView.ViewHolder(binding.root)
@@ -28,15 +30,17 @@ class DetailKategoriAdapter(
             tvKategori.text = kategori.namaKategori
             chipStatus.text = kategori.statusKategori
 
-            if (kategori.statusKategori.equals("Aktif", ignoreCase = true)) {
-                val warnaHijau = ContextCompat.getColor(root.context, android.R.color.holo_green_light)
-                chipStatus.chipBackgroundColor = ColorStateList.valueOf(warnaHijau)
-                chipStatus.setTextColor(Color.BLACK)
-            } else {
-                val warnaAbu = ContextCompat.getColor(root.context, android.R.color.darker_gray)
-                chipStatus.chipBackgroundColor = ColorStateList.valueOf(warnaAbu)
-                chipStatus.setTextColor(Color.WHITE)
-            }
+            // Logika Warna
+            val isAktif = kategori.statusKategori.equals("Aktif", ignoreCase = true)
+            val warna = if (isAktif) Color.GREEN else Color.GRAY
+            chipStatus.chipBackgroundColor = ColorStateList.valueOf(warna)
+
+            // Klik chip untuk ubah status
+            chipStatus.setOnClickListener { onStatusClick(kategori) }
+
+            // Tambahkan tombol hapus (pastikan ada ID btnHapus di XML item)
+            // Jika belum ada, tambahkan ImageView/Button hapus di item_data_kategori.xml
+            holder.binding.btnHapus.setOnClickListener { onDeleteClick(kategori) }
 
             root.setOnClickListener { onClick(kategori) }
         }

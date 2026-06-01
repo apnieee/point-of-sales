@@ -39,12 +39,24 @@ class DataKategoriActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapterKategori = DetailKategoriAdapter(emptyList()) { kategoriTerpilih ->
-            val intent = Intent(this, ModKategoriActivity::class.java).apply {
-                putExtra("DATA_KATEGORI", kategoriTerpilih)
+        adapterKategori = DetailKategoriAdapter(
+            listKategori = emptyList(),
+            onClick = { kategori -> },
+            onStatusClick = { kategori ->
+                kategori.statusKategori = if (kategori.statusKategori == "Aktif") "Non Aktif" else "Aktif"
+                viewModel.updateKategori(kategori)
+            },
+            onDeleteClick = { kategori ->
+                androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Hapus Kategori")
+                    .setMessage("Apakah Anda yakin ingin menghapus ${kategori.namaKategori}?")
+                    .setPositiveButton("Hapus") { _, _ ->
+                        viewModel.hapusKategori(kategori.idKategori)
+                    }
+                    .setNegativeButton("Batal", null)
+                    .show()
             }
-            startActivity(intent)
-        }
+        )
 
         binding.rvKategori.apply {
             layoutManager = LinearLayoutManager(this@DataKategoriActivity)
