@@ -17,7 +17,6 @@ class ModProdukActivity : AppCompatActivity() {
     private val produkRef = database.getReference("Produk")
     private val kategoriRef = database.getReference("Kategori")
 
-    // Simpan pemetaan Nama Kategori -> ID Kategori
     private val mapKategori = mutableMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
