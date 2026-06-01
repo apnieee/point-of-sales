@@ -35,7 +35,9 @@
 
         <activity android:name=".MainActivity" android:exported="false" />
 
+        <activity android:name=".outlet.OutletActivity" android:exported="false" />
         <activity android:name=".outlet.ModOutletActivity" android:exported="false" />
+        <activity android:name=".outlet.DetailOutletActivity" android:exported="false" />
 
         <activity android:name=".pelanggan.DataPelangganActivity" android:exported="false" />
         <activity android:name=".pelanggan.ModPelangganActivity" android:exported="false" />
