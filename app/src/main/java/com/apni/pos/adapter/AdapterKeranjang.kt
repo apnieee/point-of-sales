@@ -9,30 +9,30 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class AdapterKeranjang(
-    private var listProdukAktif: List<ModelProduk>,
+    private val listProdukAktif: MutableList<ModelProduk>,
     private val onQtyChanged: () -> Unit
 ) : RecyclerView.Adapter<AdapterKeranjang.ViewHolder>() {
 
-    inner class ViewHolder(val binding: ItemKeranjangBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: ItemKeranjangBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemKeranjangBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemKeranjangBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val produk = listProdukAktif[position]
-        val localeID = Locale("in", "ID")
-        val formatRupiah = NumberFormat.getCurrencyInstance(localeID).apply {
+        val formatRupiah = NumberFormat.getCurrencyInstance(Locale("in", "ID")).apply {
             maximumFractionDigits = 0
         }
 
         holder.binding.apply {
             tvNamaProdukKeranjang.text = produk.namaProduk
             tvHargaSatuanKeranjang.text = "${formatRupiah.format(produk.hargaProduk)} / item"
-
-            val subtotalItem = produk.hargaProduk * produk.qty
-            tvSubtotalItem.text = formatRupiah.format(subtotalItem)
+            tvSubtotalItem.text = formatRupiah.format(produk.hargaProduk * produk.qty)
             tvQtyKeranjang.text = produk.qty.toString()
 
             btnTambahKeranjang.setOnClickListener {
@@ -42,18 +42,26 @@ class AdapterKeranjang(
             }
 
             btnKurangKeranjang.setOnClickListener {
-                if (produk.qty > 0) {
+                if (produk.qty > 1) {
                     produk.qty--
+                    notifyItemChanged(holder.adapterPosition)
+                    onQtyChanged()
+                } else {
+                    produk.qty = 0
+                    val pos = holder.adapterPosition
+                    listProdukAktif.removeAt(pos)
+                    notifyItemRemoved(pos)
                     onQtyChanged()
                 }
             }
         }
     }
 
-    override fun getItemCount(): Int = listProdukAktif.size
+    override fun getItemCount() = listProdukAktif.size
 
     fun updateData(newList: List<ModelProduk>) {
-        this.listProdukAktif = newList
+        listProdukAktif.clear()
+        listProdukAktif.addAll(newList)
         notifyDataSetChanged()
     }
 }

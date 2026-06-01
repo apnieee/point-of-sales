@@ -14,5 +14,5 @@ data class ModelTransaksi(
     val totalBayar: Double = 0.0,
     val jumlahUangBayar: Double = 0.0,
     val kembalian: Double = 0.0,
-    val detailPesananTeks: String = ""
+    val listItem: List<ModelKeranjang> = emptyList()
 ) : Parcelable

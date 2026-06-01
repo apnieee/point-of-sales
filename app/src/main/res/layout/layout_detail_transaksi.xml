@@ -22,7 +22,8 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/back"
-                app:tint="?attr/colorOnBackground" />
+                android:contentDescription="Kembali"
+                app:tint="?attr/colorOnBackground"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -35,13 +36,13 @@
                     android:layout_height="wrap_content"
                     android:text="Detail Transaksi"
                     android:textSize="22sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Point of Sale"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -62,16 +63,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Total Pembayaran"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"/>
 
                 <TextView
                     android:id="@+id/tvTotal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text=""
                     android:textSize="30sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tvStatus"
@@ -79,11 +79,10 @@
                     android:layout_height="36dp"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:text=""
+                    android:text="SUKSES"
                     android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -104,101 +103,111 @@
                     android:layout_height="wrap_content"
                     android:text="Informasi Transaksi"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Kode Transaksi"
-                        android:textSize="15sp" />
-
+                        android:textSize="14sp"
+                        android:textColor="?android:attr/textColorSecondary"/>
                     <TextView
                         android:id="@+id/tvKode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Tanggal"
-                        android:textSize="15sp" />
-
+                        android:textSize="14sp"
+                        android:textColor="?android:attr/textColorSecondary"/>
                     <TextView
                         android:id="@+id/tvTanggal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Jam"
-                        android:textSize="15sp" />
-
+                        android:textSize="14sp"
+                        android:textColor="?android:attr/textColorSecondary"/>
                     <TextView
                         android:id="@+id/tvJam"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Metode Pembayaran"
-                        android:textSize="15sp" />
-
+                        android:textSize="14sp"
+                        android:textColor="?android:attr/textColorSecondary"/>
                     <TextView
                         android:id="@+id/tvPembayaran"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kembalian"
+                        android:textSize="14sp"
+                        android:textColor="?android:attr/textColorSecondary"/>
+                    <TextView
+                        android:id="@+id/tvKembalian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="?attr/colorPrimary"/>
                 </LinearLayout>
 
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:baselineAligned="false"
             app:cardCornerRadius="18dp"
             app:cardElevation="2dp">
 
@@ -213,19 +222,78 @@
                     android:layout_height="wrap_content"
                     android:text="Detail Pesanan"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
-                <TextView
-                    android:id="@+id/tvPesanan"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvDetailPesananFinal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:lineSpacingExtra="8dp"
-                    android:text=""
-                    android:textSize="15sp" />
+                    android:layout_marginTop="12dp"
+                    android:nestedScrollingEnabled="false"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:background="?attr/colorSurfaceVariant"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Subtotal"
+                        android:textColor="?android:attr/textColorSecondary"/>
+                    <TextView
+                        android:id="@+id/tvDetailSubtotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 0"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Pajak (10%)"
+                        android:textColor="?android:attr/textColorSecondary"/>
+                    <TextView
+                        android:id="@+id/tvDetailPajak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 0"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Total"
+                        android:textStyle="bold"
+                        android:textSize="15sp"/>
+                    <TextView
+                        android:id="@+id/tvDetailTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="15sp"/>
+                </LinearLayout>
 
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
@@ -235,22 +303,37 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEdit"
+                android:id="@+id/btnPrint"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="52dp"
                 android:layout_weight="1"
-                android:text="Edit" />
+                android:text="Print"
+                android:textSize="13sp"
+                app:cornerRadius="12dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnPrint"
+                android:id="@+id/btnSharePng"
+                style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_height="52dp"
                 android:layout_weight="1"
-                android:text="Print" />
+                android:layout_marginHorizontal="8dp"
+                android:text="PNG"
+                android:textSize="13sp"
+                app:cornerRadius="12dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSharePdf"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="PDF"
+                android:textSize="13sp"
+                app:cornerRadius="12dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
-
 </ScrollView>

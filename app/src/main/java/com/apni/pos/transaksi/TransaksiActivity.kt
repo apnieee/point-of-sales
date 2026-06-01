@@ -16,6 +16,7 @@ import com.apni.pos.databinding.BottomsheetKeranjangBinding
 import com.apni.pos.model.ModelKategori
 import com.apni.pos.model.ModelProduk
 import com.apni.pos.model.ModelTransaksi
+import com.apni.pos.model.ModelKeranjang
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.database.FirebaseDatabase
 import java.text.NumberFormat
@@ -155,87 +156,106 @@ class TransaksiActivity : AppCompatActivity() {
         val bsBinding = BottomsheetCheckoutBinding.inflate(layoutInflater)
         dialog.setContentView(bsBinding.root)
 
-        // Hitungan biaya
         val subtotal = produkAktif.sumOf { it.hargaProduk * it.qty }
         val pajak = subtotal * 0.10
         val totalFinal = subtotal + pajak
 
-        // Set teks ke UI
+        bsBinding.tvCheckoutSubtotal.text = formatRupiah.format(subtotal)
+        bsBinding.tvCheckoutPajak.text = formatRupiah.format(pajak)
         bsBinding.tvCheckoutTotal.text = formatRupiah.format(totalFinal)
 
-        // RecyclerView untuk list pesanan di dalam BottomSheet (Penting!)
-        // Pastikan AdapterKeranjang digunakan kembali agar user bisa melihat apa yang dibayar
         bsBinding.rvDetailPesanan.layoutManager = LinearLayoutManager(this)
-        bsBinding.rvDetailPesanan.adapter = AdapterKeranjang(produkAktif.toMutableList()) {
-            // Logika jika ada perubahan di dalam bottomsheet (opsional)
-        }
+        bsBinding.rvDetailPesanan.adapter = AdapterKeranjang(produkAktif.toMutableList()) {}
 
+        // Hitung kembalian realtime
         bsBinding.etJumlahBayar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Logic kembalian bisa ditambah di sini jika ada TextView tvKembalian
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                val bayar = s.toString().toDoubleOrNull() ?: 0.0
+                val kembalian = bayar - totalFinal
+                bsBinding.tvKembalian.text = if (kembalian >= 0)
+                    formatRupiah.format(kembalian)
+                else
+                    "Kurang ${formatRupiah.format(-kembalian)}"
+                bsBinding.tvKembalian.setTextColor(
+                    if (kembalian >= 0)
+                        getColor(com.google.android.material.R.color.design_default_color_primary)
+                    else
+                        getColor(android.R.color.holo_red_dark)
+                )
             }
-            override fun afterTextChanged(s: Editable?) {}
         })
 
         bsBinding.btnBayar.setOnClickListener {
             val uangInput = bsBinding.etJumlahBayar.text.toString().trim().toDoubleOrNull() ?: 0.0
-
             if (uangInput < totalFinal) {
                 Toast.makeText(this, "Pembayaran kurang!", Toast.LENGTH_SHORT).show()
-            } else {
-                prosesSimpanTransaksi(produkAktif, subtotal, pajak, totalFinal, uangInput, dialog)
+                return@setOnClickListener
             }
+
+            val metode = when (bsBinding.chipGroupMetode.checkedChipId) {
+                bsBinding.chipTransfer.id -> "Transfer"
+                bsBinding.chipQris.id -> "QRIS"
+                else -> "Tunai"
+            }
+
+            prosesSimpanTransaksi(produkAktif, subtotal, pajak, totalFinal, uangInput, metode, dialog)
         }
+
         dialog.show()
     }
+
     private fun prosesSimpanTransaksi(
         produkAktif: List<ModelProduk>,
         subtotal: Double,
         pajak: Double,
         totalFinal: Double,
         uangInput: Double,
+        metode: String,
         dialog: BottomSheetDialog
     ) {
-        // Generate Kode Nota
+        val notaId = "TRX${System.currentTimeMillis().toString().takeLast(6)}"
         val sdfTanggal = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
         val sdfJam = SimpleDateFormat("HH:mm", Locale.getDefault())
-        val notaId = "TRX${System.currentTimeMillis().toString().takeLast(6)}"
 
-        var teksPesanan = ""
-        produkAktif.forEach { teksPesanan += "${it.namaProduk} x${it.qty}\n" }
-
-        // Catatan: Jika ada chipGroup di XML checkout, pastikan cara mengambilnya tepat
-        val metodeTerpilih = "Tunai" // Sesuaikan dengan logika pilihan metode Anda
+        val listItem = produkAktif.map { produk ->
+            ModelKeranjang(
+                idProduk = produk.idProduk,
+                namaProduk = produk.namaProduk,
+                hargaProduk = produk.hargaProduk,
+                jumlahBeli = produk.qty,
+                totalHargaItem = produk.hargaProduk * produk.qty
+            )
+        }
 
         val transaksiSelesai = ModelTransaksi(
             kodeTransaksi = notaId,
             tanggal = sdfTanggal.format(Date()),
             jam = sdfJam.format(Date()),
-            metodePembayaran = metodeTerpilih,
+            metodePembayaran = metode,
             subtotal = subtotal,
             pajak = pajak,
             totalBayar = totalFinal,
             jumlahUangBayar = uangInput,
             kembalian = uangInput - totalFinal,
-            detailPesananTeks = teksPesanan
+            listItem = listItem
         )
 
-        val dbTransaksiRef = FirebaseDatabase.getInstance("https://com-apni-pos-default-rtdb.firebaseio.com/").getReference("Transaksi")
+        val dbRef = FirebaseDatabase.getInstance("https://com-apni-pos-default-rtdb.firebaseio.com/")
+            .getReference("Transaksi")
 
-        dbTransaksiRef.child(notaId).setValue(transaksiSelesai)
+        dbRef.child(notaId).setValue(transaksiSelesai)
             .addOnSuccessListener {
                 Toast.makeText(this, "Transaksi Berhasil!", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
-
-                val intent = Intent(this, DetailTransaksiActivity::class.java).apply {
+                startActivity(Intent(this, DetailTransaksiActivity::class.java).apply {
                     putExtra("DATA_NOTA", transaksiSelesai)
-                }
-                startActivity(intent)
+                })
                 finish()
             }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Firebase Error: ${e.message}", Toast.LENGTH_LONG).show()
+            .addOnFailureListener {
+                Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }
 }

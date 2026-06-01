@@ -1,4 +1,4 @@
-package com.apni.pos.model // Sesuaikan dengan nama package model kamu
+package com.apni.pos.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
