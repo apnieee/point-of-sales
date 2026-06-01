@@ -10,39 +10,36 @@ import java.util.Locale
 
 class DetailProdukAdapter(
     private var listProduk: List<ModelProduk>,
-    private val onItemClick: (ModelProduk) -> Unit
+    private val onItemClick: (ModelProduk) -> Unit,
+    private val onStatusClick: (ModelProduk) -> Unit
 ) : RecyclerView.Adapter<DetailProdukAdapter.ProdukViewHolder>() {
 
-    inner class ProdukViewHolder(private val binding: ItemProdukBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(produk: ModelProduk) {
-            binding.tvNamaProduk.text = produk.namaProduk
-            binding.tvKategoriProduk.text = produk.idKategori
-
-            val localeID = Locale("in", "ID")
-            val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
-            formatRupiah.maximumFractionDigits = 0
-
-            binding.tvHargaProduk.text = formatRupiah.format(produk.hargaProduk)
-
-            binding.root.setOnClickListener {
-                onItemClick(produk)
-            }
-        }
-    }
+    inner class ProdukViewHolder(val binding: ItemProdukBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProdukViewHolder {
-        val binding = ItemProdukBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = ItemProdukBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ProdukViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ProdukViewHolder, position: Int) {
-        holder.bind(listProduk[position])
+        val produk = listProduk[position]
+
+        holder.binding.apply {
+            tvNamaProduk.text = produk.namaProduk
+            tvKategoriProduk.text = produk.idKategori
+
+            val localeID = Locale("in", "ID")
+            val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
+            formatRupiah.maximumFractionDigits = 0
+            tvHargaProduk.text = formatRupiah.format(produk.hargaProduk)
+
+            chipStatus.text = produk.statusProduk
+
+            root.setOnClickListener { onItemClick(produk) }
+
+            chipStatus.setOnClickListener { onStatusClick(produk) }
+        }
     }
 
     override fun getItemCount(): Int = listProduk.size

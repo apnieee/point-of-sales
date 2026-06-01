@@ -64,41 +64,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivKembali">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:singleSelection="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipSemua"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="Semua"
-                android:textSize="18sp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipAdmin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Admin"
-                android:textSize="18sp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipKasir"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kasir"
-                android:textSize="18sp" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipOwner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Owner"
-                android:textSize="18sp" />
-        </com.google.android.material.chip.ChipGroup>
     </HorizontalScrollView>
 
     <androidx.core.widget.NestedScrollView

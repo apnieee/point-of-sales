@@ -9,5 +9,7 @@ data class ModelProduk(
     val idKategori: String = "",
     val namaProduk: String = "",
     val hargaProduk: Double = 0.0,
-    var qty: Int = 0
+    var qty: Int = 0,
+    var statusProduk: String = "Aktif",
+    var cabang: String = ""
 ) : Parcelable

@@ -50,18 +50,6 @@ class DataKaryawanActivity : AppCompatActivity() {
 
         ivKembali.setOnClickListener { finish() }
 
-        chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
-            if (checkedIds.isNotEmpty()) {
-                val idTerpilih = checkedIds.first()
-                filterRoleSaatIni = when (idTerpilih) {
-                    R.id.chipAdmin -> "Admin"
-                    R.id.chipKasir -> "Kasir"
-                    R.id.chipOwner -> "Owner"
-                    else -> "Semua"
-                }
-                jalankanFilterData(etSearch.text.toString())
-            }
-        }
 
         etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -82,7 +70,15 @@ class DataKaryawanActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = KaryawanAdapter(listKaryawanFilter)
+        adapter = KaryawanAdapter(listKaryawanFilter) { karyawan, action ->
+            if (action == "Edit") {
+                val intent = Intent(this, ModKaryawanActivity::class.java)
+                intent.putExtra("DATA", karyawan)
+                startActivity(intent)
+            } else if (action == "Hapus") {
+                dbRef.child(karyawan.idKaryawan).removeValue()
+            }
+        }
         rvPegawai.layoutManager = LinearLayoutManager(this)
         rvPegawai.adapter = adapter
     }

@@ -1,5 +1,6 @@
 package com.apni.pos.produk
 
+import android.util.Log
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -49,12 +50,20 @@ class DataProdukActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapterProduk = DetailProdukAdapter(emptyList()) { produkTerpilih ->
-            val intent = Intent(this, ModProdukActivity::class.java).apply {
-                putExtra("DATA_PRODUK", produkTerpilih)
+        adapterProduk = DetailProdukAdapter(
+            listProduk = emptyList(),
+            onItemClick = { produk ->
+                val intent = Intent(this, ModProdukActivity::class.java).apply {
+                    putExtra("DATA_PRODUK", produk)
+                    putExtra("MODE", "EDIT")
+                }
+                startActivity(intent)
+            },
+            onStatusClick = { produk ->
+                val newStatus = if (produk.statusProduk == "Aktif") "Non Aktif" else "Aktif"
+                produkRef.child(produk.idProduk).child("statusProduk").setValue(newStatus)
             }
-            startActivity(intent)
-        }
+        )
 
         binding.rvProduk.apply {
             layoutManager = LinearLayoutManager(this@DataProdukActivity)
@@ -104,6 +113,7 @@ class DataProdukActivity : AppCompatActivity() {
         chipSemua.text = "Semua"
         chipSemua.isCheckable = true
         chipSemua.isChecked = true
+        chipSemua.tag = "Semua" // Beri tag khusus
         chipSemua.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) adapterProduk.updateData(masterListProduk)
         }
@@ -114,11 +124,13 @@ class DataProdukActivity : AppCompatActivity() {
                 if (kategori.statusKategori.equals("Aktif", ignoreCase = true)) {
                     val chip = Chip(this)
                     chip.text = kategori.namaKategori
+                    chip.tag = kategori.idKategori // <--- SIMPAN ID DI SINI
                     chip.isCheckable = true
 
                     chip.setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
-                            filterProdukByKategori(kategori.namaKategori)
+                            // Kirim ID ke fungsi filter
+                            filterProdukByKategori(chip.tag.toString())
                         }
                     }
                     chipGroup.addView(chip)
@@ -127,12 +139,12 @@ class DataProdukActivity : AppCompatActivity() {
         }
     }
 
-    private fun filterProdukByKategori(namaKategori: String) {
-        if (namaKategori == "Semua") {
+    private fun filterProdukByKategori(idKategori: String) {
+        if (idKategori == "Semua") {
             adapterProduk.updateData(masterListProduk)
         } else {
             val filtered = masterListProduk.filter {
-                it.idKategori.equals(namaKategori, ignoreCase = true)
+                it.idKategori == idKategori
             }
             adapterProduk.updateData(filtered)
         }
