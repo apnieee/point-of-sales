@@ -64,37 +64,8 @@
             android:id="@+id/chipGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:singleSelection="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipSemua"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Semua"
-                android:textSize="18sp"
-                android:checked="true"/>
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipSnack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Snack"
-                android:textSize="18sp"/>
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipMakanan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Makanan"
-                android:textSize="18sp"/>
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipMinuman"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Minuman"
-                android:textSize="18sp" />
-        </com.google.android.material.chip.ChipGroup>
+            app:singleLine="true"
+            app:singleSelection="true" />
     </HorizontalScrollView>
 
     <androidx.core.widget.NestedScrollView
