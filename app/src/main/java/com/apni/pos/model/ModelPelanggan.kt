@@ -8,5 +8,5 @@ data class ModelPelanggan(
     var idPelanggan: String = "",
     var namaPelanggan: String = "",
     var nomorHp: String = "",
-    var poin: Int = 0
+    var totalTransaksi: Long = 0
 ) : Parcelable

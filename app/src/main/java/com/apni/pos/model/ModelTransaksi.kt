@@ -1,3 +1,5 @@
+package com.apni.pos.model
+
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 

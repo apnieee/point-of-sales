@@ -9,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.apni.pos.databinding.LayoutDetailTransaksiBinding
-import com.apni.pos.model.ModelTransaksi
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import java.text.NumberFormat
 import java.util.Locale
 import android.content.Intent
 import android.net.Uri
+import com.apni.pos.model.ModelTransaksi
 
 class DetailTransaksiActivity : AppCompatActivity() {
 
