@@ -11,6 +11,7 @@ import com.apni.pos.kategori.DataKategoriActivity
 import com.apni.pos.laporan.LaporanActivity
 import com.apni.pos.model.ModelTransaksi
 import com.apni.pos.outlet.OutletActivity
+import com.apni.pos.pelanggan.DataPelangganActivity
 import com.apni.pos.produk.DataProdukActivity
 import com.apni.pos.transaksi.TransaksiActivity
 import com.apni.pos.pelanggan.ModPelangganActivity
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvEstimasi: TextView
 
     private lateinit var ivTransaksi: ImageView
-    private lateinit var ivPelanggan: ImageView // <-- 1. Tambahkan deklarasi ivPelanggan di sini
+    private lateinit var ivPelanggan: ImageView
     private lateinit var ivLaporan: ImageView
 
     private lateinit var cardAkun: CardView
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cardCabang: CardView
     private lateinit var cardPrinter: CardView
 
-    private val formatRupiah = NumberFormat.getCurrencyInstance(Locale("id", "ID")) // Menggunakan ID agar format Rupiah pas
+    private val formatRupiah = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         tvEstimasi  = findViewById(R.id.tvEstimasi)
 
         ivTransaksi = findViewById(R.id.ivTransaksi)
-        ivPelanggan = findViewById(R.id.ivPelanggan) // <-- 2. Hubungkan dengan ID XML di sini
+        ivPelanggan = findViewById(R.id.ivPelanggan)
         ivLaporan   = findViewById(R.id.ivLaporan)
 
         cardAkun     = findViewById(R.id.cardAkun)
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupTanggal() {
-        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID")) // Pakai locale Indonesia agar nama bulan berbahasa Indonesia
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
         val tanggalSekarang = dateFormat.format(Date())
         tvTanggal.text = tanggalSekarang
     }
@@ -132,7 +133,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         ivPelanggan.setOnClickListener {
-            startActivity(Intent(this, ModPelangganActivity::class.java))
+            startActivity(Intent(this, DataPelangganActivity::class.java))
         }
 
         ivLaporan.setOnClickListener {
