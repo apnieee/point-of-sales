@@ -1,6 +1,8 @@
 package com.apni.pos
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.apni.pos.databinding.ActivityProfileBinding
@@ -16,25 +18,43 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Ambil username dari session
         val sharedPref = getSharedPreferences("UserSession", MODE_PRIVATE)
         val username = sharedPref.getString("username", "") ?: ""
 
-        // Ambil data dari Firestore
+        binding.tvUsername.text = username
+
         db.collection("pegawai").document(username)
             .get()
             .addOnSuccessListener { document ->
                 if (document.exists()) {
-                    binding.tvNamaPegawai.text = document.getString("nama")
-                    binding.tvJabatan.text = document.getString("jabatan")
+                    val nama = document.getString("nama") ?: username
+                    val jabatan = document.getString("jabatan") ?: "-"
+
+                    binding.tvNamaPegawai.text = nama
+                    binding.tvJabatan.text = jabatan
+                    binding.tvJabatanDetail.text = jabatan
+
+                    // Avatar inisial
+                    val inisial = nama.split(" ").take(2)
+                        .joinToString("") { it.firstOrNull()?.uppercase() ?: "" }
+                    binding.tvAvatar.text = inisial
+
+                    val avatarColors = listOf(
+                        "#1565C0", "#6A1B9A", "#E65100", "#00695C", "#AD1457"
+                    )
+                    val warna = avatarColors[nama.length % avatarColors.size]
+                    (binding.tvAvatar.background as? GradientDrawable)
+                        ?.setColor(Color.parseColor(warna))
                 }
             }
 
-        // Logika Logout
+        binding.ivKembali.setOnClickListener { finish() }
+
         binding.btnLogout.setOnClickListener {
             sharedPref.edit().clear().apply()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            startActivity(Intent(this, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            })
         }
     }
 }
