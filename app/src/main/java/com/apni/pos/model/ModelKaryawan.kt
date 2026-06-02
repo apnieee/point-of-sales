@@ -12,5 +12,6 @@ data class ModelKaryawan(
     var nomorHp: String = "",
     var role: String = "Kasir",
     var outlet: String = "Pusat",
-    var isAktif: Boolean = true
+    var isAktif: Boolean = true,
+    var idOutlet: String = ""
 ) : Parcelable

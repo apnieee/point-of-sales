@@ -78,7 +78,7 @@
                 app:tint="?attr/colorOnBackground"/>
 
             <TextView
-                android:id="@+id/tvKategoriProduk"
+                android:id="@+id/tvKategori"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
@@ -103,6 +103,7 @@
                 app:tint="?attr/colorOnBackground"/>
 
             <TextView
+                android:id="@+id/tvStok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -129,6 +130,7 @@
                 app:tint="?attr/colorOnBackground"/>
 
             <TextView
+                android:id="@+id/tvCabang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"

@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.content.Intent
+import com.apni.pos.transaksi.DetailTransaksiActivity
 import com.apni.pos.R
 import com.apni.pos.adapter.RiwayatAdapter
 import com.apni.pos.model.ModelTransaksi
@@ -14,6 +16,7 @@ import com.google.firebase.database.*
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class LaporanActivity : AppCompatActivity() {
 
@@ -46,7 +49,10 @@ class LaporanActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = RiwayatAdapter(listTransaksi) { transaksiTerpilih ->
-            Toast.makeText(this, "Nota: ${transaksiTerpilih.kodeTransaksi}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, DetailTransaksiActivity::class.java).apply {
+                putExtra("DATA_NOTA", transaksiTerpilih)
+            }
+            startActivity(intent)
         }
         rvRiwayat.layoutManager = LinearLayoutManager(this)
         rvRiwayat.adapter = adapter

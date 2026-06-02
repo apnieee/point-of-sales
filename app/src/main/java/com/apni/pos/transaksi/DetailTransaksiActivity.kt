@@ -11,6 +11,7 @@ import android.graphics.pdf.PdfDocument
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -131,18 +132,23 @@ class DetailTransaksiActivity : AppCompatActivity() {
         }
     }
 
-    // ── SHARE PNG ─────────────────────────────────────────────────
     private fun shareAsPng() {
         try {
             val view = binding.root
+            Log.d("DEBUG_SHARE", "View width: ${view.width}, height: ${view.height}")
+
             val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             view.draw(canvas)
+            Log.d("DEBUG_SHARE", "Bitmap berhasil dibuat")
 
             val file = File(cacheDir, "struk_${nota.kodeTransaksi}.png")
             FileOutputStream(file).use { bitmap.compress(Bitmap.CompressFormat.PNG, 100, it) }
+            Log.d("DEBUG_SHARE", "File PNG disimpan di: ${file.absolutePath}")
 
             val uri = FileProvider.getUriForFile(this, "${packageName}.provider", file)
+            Log.d("DEBUG_SHARE", "URI: $uri")
+
             startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
                 type = "image/png"
                 putExtra(Intent.EXTRA_STREAM, uri)
@@ -150,11 +156,11 @@ class DetailTransaksiActivity : AppCompatActivity() {
             }, "Bagikan Struk via"))
 
         } catch (e: Exception) {
-            Toast.makeText(this, "Gagal buat PNG: ${e.message}", Toast.LENGTH_SHORT).show()
+            Log.e("DEBUG_SHARE", "Error PNG: ${e.message}", e)
+            Toast.makeText(this, "Gagal: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
-    // ── SHARE PDF ─────────────────────────────────────────────────
     private fun shareAsPdf() {
         try {
             val pdfDoc = PdfDocument()

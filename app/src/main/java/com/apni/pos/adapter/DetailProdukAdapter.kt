@@ -14,6 +14,10 @@ class DetailProdukAdapter(
     private val onStatusClick: (ModelProduk) -> Unit
 ) : RecyclerView.Adapter<DetailProdukAdapter.ProdukViewHolder>() {
 
+    private val formatRupiah = NumberFormat.getCurrencyInstance(Locale("in", "ID")).apply {
+        maximumFractionDigits = 0
+    }
+
     inner class ProdukViewHolder(val binding: ItemProdukBinding) :
         RecyclerView.ViewHolder(binding.root)
 
@@ -27,17 +31,16 @@ class DetailProdukAdapter(
 
         holder.binding.apply {
             tvNamaProduk.text = produk.namaProduk
-            tvKategoriProduk.text = produk.idKategori
+            tvKategori.text = produk.idKategori
+            tvStok.text = "Stok: ${produk.qty}"
+            tvCabang.text = produk.cabang
 
-            val localeID = Locale("in", "ID")
-            val formatRupiah = NumberFormat.getCurrencyInstance(localeID)
-            formatRupiah.maximumFractionDigits = 0
             tvHargaProduk.text = formatRupiah.format(produk.hargaProduk)
 
             chipStatus.text = produk.statusProduk
+            chipStatus.isChecked = (produk.statusProduk == "Aktif")
 
             root.setOnClickListener { onItemClick(produk) }
-
             chipStatus.setOnClickListener { onStatusClick(produk) }
         }
     }

@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.apni.pos.databinding.ActivityModProdukBinding
 import com.apni.pos.model.ModelKategori
+import com.apni.pos.model.ModelOutlet
+import com.apni.pos.model.ModelProduk
 import com.google.firebase.database.*
 
 class ModProdukActivity : AppCompatActivity() {
@@ -16,29 +18,55 @@ class ModProdukActivity : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance("https://com-apni-pos-default-rtdb.firebaseio.com/")
     private val produkRef = database.getReference("Produk")
     private val kategoriRef = database.getReference("Kategori")
+    private val outletRef = database.getReference("Outlet")
 
     private val mapKategori = mutableMapOf<String, String>()
+    private val mapOutlet = mutableMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityModProdukBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val dataEdit = intent.getParcelableExtra<ModelProduk>("DATA_PRODUK")
+        if (dataEdit != null) {
+            isiForm(dataEdit)
+        }
+
         setupDropdownTipeUntung()
         setupDropdownKategoriRealtime()
+        setupDropdownOutletRealtime()
         setupLogikaKalkulasiHarga()
         setupLogikaCheckboxStok()
 
         binding.ivkembali.setOnClickListener { finish() }
+        binding.btnSimpanProduk.setOnClickListener { simpanProdukKeFirebase() }
+    }
 
-        binding.btnSimpanProduk.setOnClickListener {
-            simpanProdukKeFirebase()
-        }
+    private fun isiForm(produk: ModelProduk) {
+        binding.layoutInformasi.etNamaProduk.setText(produk.namaProduk)
+        binding.layoutHarga.etHargaBeli.setText(produk.hargaProduk.toString())
+        binding.layoutStok.etStok.setText(produk.qty.toString())
+
+        kategoriRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (data in snapshot.children) {
+                    val kat = data.getValue(ModelKategori::class.java)
+                    if (kat?.idKategori == produk.idKategori) {
+                        binding.layoutKategoricabang.actPilihKategori.setText(kat.namaKategori, false)
+                    }
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+
+        binding.layoutKategoricabang.actPilihCabang.setText(produk.cabang, false)
     }
 
     private fun setupDropdownTipeUntung() {
         val listTipe = arrayOf("Persentase (%)", "Nominal (Rp)")
         val adapterTipe = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, listTipe)
+        // Sesuaikan dengan ID di layout harga Anda
         binding.layoutHarga.actTipeKeuntungan.setAdapter(adapterTipe)
     }
 
@@ -57,7 +85,26 @@ class ModProdukActivity : AppCompatActivity() {
                     }
                 }
                 val adapterKat = ArrayAdapter(this@ModProdukActivity, android.R.layout.simple_dropdown_item_1line, listNamaKategori)
-                binding.layoutKategori.actPilihKategori.setAdapter(adapterKat)
+                binding.layoutKategoricabang.actPilihKategori.setAdapter(adapterKat)
+            }
+            override fun onCancelled(error: DatabaseError) {}
+        })
+    }
+
+    private fun setupDropdownOutletRealtime() {
+        outletRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val listNamaOutlet = mutableListOf<String>()
+                mapOutlet.clear()
+                for (data in snapshot.children) {
+                    val outlet = data.getValue(ModelOutlet::class.java)
+                    if (outlet != null) {
+                        listNamaOutlet.add(outlet.namaOutlet)
+                        mapOutlet[outlet.namaOutlet] = outlet.idOutlet
+                    }
+                }
+                val adapter = ArrayAdapter(this@ModProdukActivity, android.R.layout.simple_dropdown_item_1line, listNamaOutlet)
+                binding.layoutKategoricabang.actPilihCabang.setAdapter(adapter)
             }
             override fun onCancelled(error: DatabaseError) {}
         })
@@ -88,14 +135,51 @@ class ModProdukActivity : AppCompatActivity() {
 
         val hargaBeli = hargaBeliTxt.toDoubleOrNull() ?: 0.0
         val profit = profitTxt.toDoubleOrNull() ?: 0.0
-        var hargaJual = 0.0
-
-        if (tipeUntung.contains("%")) {
-            hargaJual = hargaBeli + (hargaBeli * (profit / 100.0))
+        val hargaJual: Double = if (tipeUntung.contains("%")) {
+            hargaBeli + (hargaBeli * profit / 100)
         } else {
-            hargaJual = hargaBeli + profit
+            hargaBeli + profit
         }
-        binding.layoutHarga.etHargaJual.setText(String.format("%.0f", hargaJual))
+        binding.layoutHarga.etHargaJual.setText(hargaJual.toLong().toString())
+    }
+
+    private fun simpanProdukKeFirebase() {
+        val namaProduk = binding.layoutInformasi.etNamaProduk.text.toString().trim()
+        val namaKategori = binding.layoutKategoricabang.actPilihKategori.text.toString()
+        val namaOutlet = binding.layoutKategoricabang.actPilihCabang.text.toString()
+        val hargaJual = binding.layoutHarga.etHargaJual.text.toString().toDoubleOrNull() ?: 0.0
+        val stok = binding.layoutStok.etStok.text.toString().toIntOrNull() ?: 0
+
+        val idKategori = mapKategori[namaKategori] ?: ""
+        val idOutlet = mapOutlet[namaOutlet] ?: ""
+
+        if (namaProduk.isEmpty() || idKategori.isEmpty() || idOutlet.isEmpty()) {
+            Toast.makeText(this, "Lengkapi data produk dan pilih outlet!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dataEdit = intent.getParcelableExtra<ModelProduk>("DATA_PRODUK")
+        val idSimpan = dataEdit?.idProduk ?: produkRef.push().key!!
+
+        val dataProduk = ModelProduk(
+            idProduk = idSimpan,
+            idKategori = idKategori,
+            namaProduk = namaProduk,
+            hargaProduk = hargaJual,
+            qty = stok,
+            statusProduk = dataEdit?.statusProduk ?: "Aktif",
+            cabang = namaOutlet,
+            idOutlet = idOutlet
+        )
+
+        produkRef.child(idSimpan).setValue(dataProduk)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Produk Berhasil Disimpan!", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Gagal: ${it.message}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun setupLogikaCheckboxStok() {
@@ -108,32 +192,5 @@ class ModProdukActivity : AppCompatActivity() {
                 binding.layoutStok.etStok.isEnabled = true
             }
         }
-    }
-
-    private fun simpanProdukKeFirebase() {
-        val namaProduk = binding.layoutInformasi.etNamaProduk.text.toString().trim()
-        val kategoriSelected = binding.layoutKategori.actPilihKategori.text.toString()
-        val hargaJualTxt = binding.layoutHarga.etHargaJual.text.toString()
-        val idKategori = mapKategori[kategoriSelected] ?: ""
-
-        if (namaProduk.isEmpty() || kategoriSelected.isEmpty() || hargaJualTxt.isEmpty()) {
-            Toast.makeText(this, "Lengkapi data produk!", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val idBaru = produkRef.push().key ?: return
-        val dataProduk = HashMap<String, Any>()
-        dataProduk["idProduk"] = idBaru
-        dataProduk["idKategori"] = idKategori
-        dataProduk["namaProduk"] = namaProduk
-        dataProduk["namaKategori"] = kategoriSelected
-        dataProduk["hargaProduk"] = hargaJualTxt.toDouble()
-        dataProduk["qty"] = 0
-
-        produkRef.child(idBaru).setValue(dataProduk)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Produk Berhasil Disimpan!", Toast.LENGTH_SHORT).show()
-                finish()
-            }
     }
 }

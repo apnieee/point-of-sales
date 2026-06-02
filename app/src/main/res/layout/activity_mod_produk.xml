@@ -64,7 +64,7 @@
                 layout="@layout/layout_informasi_produk"/>
 
             <include
-                android:id="@+id/layout_kategori"
+                android:id="@+id/layout_kategoricabang"
                 layout="@layout/layout_kategori_produk"/>
 
             <include
