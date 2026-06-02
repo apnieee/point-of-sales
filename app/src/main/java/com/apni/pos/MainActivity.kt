@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     private val formatRupiah = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Apply tema SEBELUM setContentView biar ga flicker
         val sharedPref = getSharedPreferences("AppSettings", MODE_PRIVATE)
         val isDark = sharedPref.getBoolean("isDarkMode", false)
         AppCompatDelegate.setDefaultNightMode(
@@ -87,7 +86,7 @@ class MainActivity : AppCompatActivity() {
 
         ivToggleTheme.setImageResource(
             if (isDark) R.drawable.nightmode  // icon bulan = lagi dark, pencet buat balik terang
-            else R.drawable.nightmode         // ganti ke icon matahari kalau kamu punya
+            else R.drawable.lightmode         // ganti ke icon matahari kalau kamu punya
         )
 
         ivToggleTheme.setOnClickListener {

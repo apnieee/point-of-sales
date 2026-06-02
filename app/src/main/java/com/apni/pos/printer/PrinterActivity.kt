@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -18,6 +19,7 @@ class PrinterActivity : AppCompatActivity() {
 
     private lateinit var rvPrinter: RecyclerView
     private lateinit var btnCari: Button
+    private lateinit var ivKembali: ImageView
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,8 +28,13 @@ class PrinterActivity : AppCompatActivity() {
 
         rvPrinter = findViewById(R.id.rvPrinter)
         btnCari = findViewById(R.id.btnCariPrinter)
+        ivKembali = findViewById(R.id.ivKembali)
 
         rvPrinter.layoutManager = LinearLayoutManager(this)
+
+        ivKembali.setOnClickListener {
+            finish()
+        }
 
         btnCari.setOnClickListener {
             checkPermissionsAndBluetooth()
