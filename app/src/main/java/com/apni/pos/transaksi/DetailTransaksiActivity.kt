@@ -185,8 +185,8 @@ class DetailTransaksiActivity : AppCompatActivity() {
                 y += 24f
             }
 
-            tulis("SEBLAK PRASMANAN", paintTitle, (595 - paintTitle.measureText("SEBLAK PRASMANAN")) / 2)
-            tulis("Jl. Contoh No. 1, Kota", paint, (595 - paint.measureText("Jl. Contoh No. 1, Kota")) / 2)
+            tulis("KATANYA SIH SEBLAK", paintTitle, (595 - paintTitle.measureText("KATANYA SIH SEBLAK")) / 2)
+            tulis("Jl. Kenangan Mantan No. 1", paint, (595 - paint.measureText("Jl. Kenangan Mantan No. 1")) / 2)
             garis()
             tulis("Nota   : ${nota.kodeTransaksi}")
             tulis("Tanggal: ${nota.tanggal}  ${nota.jam}")
@@ -203,8 +203,8 @@ class DetailTransaksiActivity : AppCompatActivity() {
             tulisKananKiri("Bayar", formatRupiah.format(nota.jumlahUangBayar))
             tulisKananKiri("Kembali", formatRupiah.format(nota.kembalian), paintBold)
             garis()
-            tulis("Terima kasih! Selamat menikmati :)", paint,
-                (595 - paint.measureText("Terima kasih! Selamat menikmati :)")) / 2)
+            tulis("Terima kasih! Selamat menikmati seporsi kemenangan!", paint,
+                (595 - paint.measureText("Terima kasih! Selamat menikmati seporsi kemenangan!")) / 2)
 
             pdfDoc.finishPage(page)
 
