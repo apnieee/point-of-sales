@@ -211,11 +211,12 @@ Aplikasi mendukung printer thermal bluetooth via library **ESCPOS-ThermalPrinter
 <img src="transaksi1.jpg" width="200"> <img src="transaksi2.jpg" width="200"> <img src="transaksi3.jpg" width="200"> <img src="transaksi4.jpg" width="200">
 
 ### Activity Pelanggan
-<img src="pelanggan.jpg" width="300"> <img src="pelanggan1.jpg" width="300">
+<img src="pelanggan.jpg" width="300"> <img src="pelanggan2.jpg" width="300">
 
 ### Activity Laporan
+<img src="laporan1.jpg" width="300">
 
 ### Activity Akun
 ### Activity Produk
 ### Activity Kategori
-### Activity Pegawai
+### Activity Karyawan
