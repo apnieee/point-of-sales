@@ -199,10 +199,15 @@ Aplikasi mendukung printer thermal bluetooth via library **ESCPOS-ThermalPrinter
 
 ---
 
-## Screenshots
+## Tampilan Aplikasi
 
-> *(Tambahkan screenshot aplikasi di sini)*
-
-```
-MIT License — bebas digunakan dan dimodifikasi
-```
+### Login
+<img src="login1.jpg" width="300">
+### Dashboard
+### Activity Transaksi
+### Activity Pelanggan
+### Activity Laporan
+### Activity Akun
+### Activity Produk
+### Activity Kategori
+### Activity Pegawai
