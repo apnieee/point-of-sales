@@ -217,8 +217,10 @@ Aplikasi mendukung printer thermal bluetooth via library **ESCPOS-ThermalPrinter
 <img src="laporan1.jpg" width="300">
 
 ### Activity Akun
-<img src="profil.jpg" width="300">
+<img src="profil1.jpg" width="300">
 
 ### Activity Produk
+<img src="produk1.jpg" width="300"> <img src="produk2.jpg" width="300">
+
 ### Activity Kategori
 ### Activity Karyawan
