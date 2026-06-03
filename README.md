@@ -1,12 +1,12 @@
-# 🌶️ Katanya Sih Seblak — Point of Sale App
+# Katanya Sih Seblak — Point of Sale App
 
 Aplikasi kasir (Point of Sale) Android untuk usaha seblak prasmanan, dibangun dengan Kotlin + Firebase.
 
 ---
 
-##  Fitur Utama
+## Fitur Utama
 
-###  Transaksi
+### Transaksi
 - Tampil produk aktif berdasarkan kategori aktif dari Firebase
 - Filter produk per kategori (chip dinamis)
 - Tambah produk ke keranjang dengan kontrol qty
@@ -17,46 +17,46 @@ Aplikasi kasir (Point of Sale) Android untuk usaha seblak prasmanan, dibangun de
   - Input jumlah bayar + kalkulasi kembalian realtime
 - Transaksi tersimpan ke Firebase Realtime Database
 
-###  Detail Transaksi
+### Detail Transaksi
 - Info lengkap: kode nota, tanggal, jam, metode bayar, kembalian
 - Daftar item pesanan dengan harga satuan & subtotal
 - **Print struk** ke printer thermal bluetooth (ESC/POS)
 - **Bagikan struk** sebagai PNG atau PDF via WhatsApp, email, dll
 
-###  Laporan
+### Laporan
 - Total omzet hari ini
 - Daftar semua transaksi hari ini
 - Klik transaksi → buka detail lengkap
 
-###  Pelanggan / Member
+### Pelanggan / Member
 - Tambah & edit data member (nama, nomor HP)
 - Avatar inisial dengan warna dinamis
 - Total transaksi per member
 - Hapus member dengan konfirmasi dialog
 - Cari member by nama atau nomor HP
 
-###  Produk
+### Produk
 - Tambah & edit produk
 - Kalkulasi harga jual otomatis (persentase / nominal)
 - Filter berdasarkan kategori & outlet
 - Status aktif / non-aktif
 
-###  Kategori
+### Kategori
 - Tambah & kelola kategori produk
 - Status aktif / non-aktif
 
-###  Profil & Akun
+### Profil & Akun
 - Tampil nama, jabatan, dan username dari Firestore
 - Avatar inisial dengan warna dinamis
 - Logout dengan clear session
 
-###  Dark / Light Mode
+### Dark / Light Mode
 - Toggle tema gelap/terang dari dashboard
 - Preferensi tersimpan, konsisten di semua activity
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Komponen | Library / Tool |
 |---|---|
@@ -71,7 +71,7 @@ Aplikasi kasir (Point of Sale) Android untuk usaha seblak prasmanan, dibangun de
 
 ---
 
-## 🗂️ Struktur Project
+## Struktur Project
 
 ```
 com.apni.pos
@@ -105,7 +105,7 @@ com.apni.pos
 
 ---
 
-## ⚙️ Setup & Instalasi
+## Setup & Instalasi
 
 ### 1. Clone repo
 ```bash
@@ -189,7 +189,7 @@ implementation 'com.github.dantsu:ESCPOS-ThermalPrinter-Android:3.x.x'
 
 ---
 
-## 🖨️ Printer Thermal Bluetooth
+## Printer Thermal Bluetooth
 
 Aplikasi mendukung printer thermal bluetooth via library **ESCPOS-ThermalPrinter-Android** (dantsu).
 
