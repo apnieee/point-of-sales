@@ -109,8 +109,8 @@ com.apni.pos
 
 ### 1. Clone repo
 ```bash
-git clone https://github.com/username/katanya-sih-seblak-pos.git
-cd katanya-sih-seblak-pos
+git clone https://github.com/apnieee/point-of-sales.git
+cd pos
 ```
 
 ### 2. Hubungkan Firebase
@@ -199,7 +199,7 @@ Aplikasi mendukung printer thermal bluetooth via library **ESCPOS-ThermalPrinter
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 > *(Tambahkan screenshot aplikasi di sini)*
 
